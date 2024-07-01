@@ -1073,11 +1073,12 @@ describe("Highlight Editor", () => {
         pages.map(async ([browserName, page]) => {
           await switchToHighlight(page);
 
+          await page.focus(`.page[data-page-number="1"] > .textLayer`);
           await page.evaluate(() => {
             const text =
               "Dynamic languages such as JavaScript are more difﬁcult to com-";
             for (const el of document.querySelectorAll(
-              `.page[data-page-number="${1}"] > .textLayer > span`
+              `.page[data-page-number="1"] > .textLayer > span`
             )) {
               if (el.textContent === text) {
                 window.getSelection().setPosition(el.firstChild, 15);
