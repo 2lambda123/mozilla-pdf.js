@@ -2127,8 +2127,6 @@ const PDFViewerApplication = {
     this._globalAbortController?.abort();
     this._globalAbortController = null;
 
-    this.findBar?.close();
-
     await Promise.all([this.l10n?.destroy(), this.close()]);
   },
 
@@ -2975,7 +2973,8 @@ function webViewerKeyDown(evt) {
     curElementTagName === "SELECT" ||
     (curElementTagName === "BUTTON" &&
       (evt.keyCode === /* Enter = */ 13 || evt.keyCode === /* Space = */ 32)) ||
-    curElement?.isContentEditable
+    curElement?.isContentEditable ||
+    curElement?.closest(".toolbarButton")
   ) {
     // Make sure that the secondary toolbar is closed when Escape is pressed.
     if (evt.keyCode !== /* Esc = */ 27) {

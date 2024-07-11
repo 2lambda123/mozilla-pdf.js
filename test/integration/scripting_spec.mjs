@@ -460,7 +460,7 @@ describe("Interaction", () => {
           page,
           getSelector("47R"),
           async () => {
-            await page.click("#print");
+            await page.click("#printButton");
           }
         );
         expect(text).withContext(`In ${browserName}`).toEqual("WillPrint");
@@ -507,7 +507,7 @@ describe("Interaction", () => {
             page,
             getSelector("47R"),
             async () => {
-              await page.click("#download");
+              await page.click("#downloadButton");
             }
           );
           expect(text).withContext(`In ${browserName}`).toEqual("WillSave");

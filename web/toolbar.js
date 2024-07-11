@@ -21,7 +21,7 @@ import {
   DEFAULT_SCALE_VALUE,
   MAX_SCALE,
   MIN_SCALE,
-  toggleCheckedBtn,
+  toggleExpandedBtn,
 } from "./ui_utils.js";
 
 /**
@@ -196,6 +196,9 @@ class Toolbar {
     for (const { element, eventName, eventDetails } of buttons) {
       element.addEventListener("click", evt => {
         if (eventName !== null) {
+          if (evt.target !== element) {
+            return;
+          }
           eventBus.dispatch(eventName, {
             source: this,
             ...eventDetails,
@@ -258,32 +261,32 @@ class Toolbar {
       editorStampParamsToolbar,
     } = this.#opts;
 
-    toggleCheckedBtn(
+    toggleExpandedBtn(
       editorFreeTextButton,
       mode === AnnotationEditorType.FREETEXT,
       editorFreeTextParamsToolbar
     );
-    toggleCheckedBtn(
+    toggleExpandedBtn(
       editorHighlightButton,
       mode === AnnotationEditorType.HIGHLIGHT,
       editorHighlightParamsToolbar
     );
-    toggleCheckedBtn(
+    toggleExpandedBtn(
       editorInkButton,
       mode === AnnotationEditorType.INK,
       editorInkParamsToolbar
     );
-    toggleCheckedBtn(
+    toggleExpandedBtn(
       editorStampButton,
       mode === AnnotationEditorType.STAMP,
       editorStampParamsToolbar
     );
 
     const isDisable = mode === AnnotationEditorType.DISABLE;
-    editorFreeTextButton.disabled = isDisable;
-    editorHighlightButton.disabled = isDisable;
-    editorInkButton.disabled = isDisable;
-    editorStampButton.disabled = isDisable;
+    editorFreeTextButton.toggleAttribute("disabled", isDisable);
+    editorHighlightButton.toggleAttribute("disabled", isDisable);
+    editorInkButton.toggleAttribute("disabled", isDisable);
+    editorStampButton.toggleAttribute("disabled", isDisable);
   }
 
   #updateUIState(resetNumPages = false) {

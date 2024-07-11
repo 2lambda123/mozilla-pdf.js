@@ -25,8 +25,6 @@ const MATCHES_COUNT_LIMIT = 1000;
  * is done by PDFFindController.
  */
 class PDFFindBar {
-  #resizeObserver = new ResizeObserver(this.#resizeObserverCallback.bind(this));
-
   constructor(options, eventBus) {
     this.opened = false;
 
@@ -162,13 +160,6 @@ class PDFFindBar {
 
   open() {
     if (!this.opened) {
-      // Potentially update the findbar layout, row vs column, when:
-      //  - The width of the viewer itself changes.
-      //  - The width of the findbar changes, by toggling the visibility
-      //    (or localization) of find count/status messages.
-      this.#resizeObserver.observe(this.bar.parentNode);
-      this.#resizeObserver.observe(this.bar);
-
       this.opened = true;
       toggleExpandedBtn(this.toggleButton, true, this.bar);
     }
@@ -180,7 +171,6 @@ class PDFFindBar {
     if (!this.opened) {
       return;
     }
-    this.#resizeObserver.disconnect();
 
     this.opened = false;
     toggleExpandedBtn(this.toggleButton, false, this.bar);
@@ -193,25 +183,6 @@ class PDFFindBar {
       this.close();
     } else {
       this.open();
-    }
-  }
-
-  #resizeObserverCallback(entries) {
-    const { bar } = this;
-    // The find bar has an absolute position and thus the browser extends
-    // its width to the maximum possible width once the find bar does not fit
-    // entirely within the window anymore (and its elements are automatically
-    // wrapped). Here we detect and fix that.
-    bar.classList.remove("wrapContainers");
-
-    const findbarHeight = bar.clientHeight;
-    const inputContainerHeight = bar.firstElementChild.clientHeight;
-
-    if (findbarHeight > inputContainerHeight) {
-      // The findbar is taller than the input container, which means that
-      // the browser wrapped some of the elements. For a consistent look,
-      // wrap all of them to adjust the width of the find bar.
-      bar.classList.add("wrapContainers");
     }
   }
 }
