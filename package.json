@@ -57,7 +57,7 @@
     "ttest": "^4.0.0",
     "typescript": "^5.5.4",
     "vinyl": "^3.0.0",
-    "webpack": "^5.93.0",
+    "webpack": "^5.94.0",
     "webpack-stream": "^7.0.0",
     "yargs": "^17.7.2"
   },
